@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Addition</title>
+    <style>
+      body{
+        background-color: lightyellow;
+      }
+    #root{
+      text-align: center;
+      font-family: sans-sarif;
+      margin-top: 16rem;
+    }
+    #problem{
+      font-size: 72px;
+      font-weight: bold;
+    }
+    .incorrect{
+      color: red;
+    }
+    #Winner{
+      font-size: 72px;
+      color: green;
+      font-weight: bold;
+      margin-top: 3rem;
+    }
+    .score{
+      font-weight: bold;
+    }
+    .fail{
+      font-size: 72px;
+      color: red;
+      font-weight: bold;
+      margin-top: 7rem;
+    }
+    #main-heading{
+      text-align: center;
+      font-weight: bold;
+      color: #562B08;
+    }
+
+    </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="main-heading">
+    <h1>Random Calculator for kids up to 10 degits</h1>
+    <h3>Design by Pir Adnan</h3>
+    </div>
+    <div id="root"></div>
+<script type="text/babel">
+  function Heading(){
+    return(
+    <h1>Addition of randomly number up to 10 for Kids</h1>
+  );
+  }
+  function App(){
+    <Heading />
+    const [state,setState]=React.useState({
+    num1: 1,
+    num2: 2,
+    response: "",
+    score: 0
+    });
+    function inputKeyPress(event){
+      if(event.key==="Enter"){
+        const answer=  parseInt(state.response)
+        if(state.num1+state.num2===answer){
+          setState({
+            ...state,
+            num1: Math.ceil(Math.random() * 10),
+            num2: Math.ceil(Math.random() * 10),
+            score: state.score + 1,
+            response: "",
+            incorrect: false
+          });
+          //user got right Answer
+        }else{
+          setState({
+            ...state,
+            num1: Math.ceil(Math.random() * 10),
+            num2: Math.ceil(Math.random() * 10),
+            score: state.score - 1,
+            response: "",
+            incorrect: true
+          });
+          //user got question wrong
+        }
+      }
+    }
+    function upDateResponse(event){
+      setState({
+        ...state,
+        response: event.target.value
+      });
+    }
+    if(state.score===10){
+      return(
+      <div id="Winner">
+        Congratulations!
+        You are Winner
+      </div>
+      )
+    }else if(state.score=== -10){
+      return(
+      <div className="fail">Opsss! Try again</div>
+    );
+    }
+    return(
+      <div>
+        <div className={state.incorrect ? "incorrect": ""} id="problem">{state.num1}+{state.num2}</div>
+        <input autoFocus="true" onKeyPress={inputKeyPress} onChange={upDateResponse} value={state.response} />
+        <div className="score">Score: {state.score}</div>
+      </div>
+    )
+  }
+
+  ReactDOM.render(<App />,document.getElementById('root'))
+</script>
+  </body>
+</html>
